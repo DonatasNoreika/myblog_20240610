@@ -45,6 +45,9 @@
                     {{ user.get_username }}</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_comments' %}">Mano komentarai</a>
+                </li>
+                <li class="nav-item">
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <button class="nav-link active" type="submit">Atsijungti</button>

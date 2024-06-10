@@ -71,3 +71,16 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         form.save()
         return super().form_valid(form)
 
+
+class CommentListView(LoginRequiredMixin, ListView):
+    model = Comment
+    template_name = "my_comments.html"
+    context_object_name = "comments"
+
+    def get_queryset(self):
+        return Comment.objects.filter(author=self.request.user)
+
+
+
+
+
