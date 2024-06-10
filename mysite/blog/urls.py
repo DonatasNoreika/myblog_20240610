@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import PostListView, PostDetailView
+from .views import PostListView, PostDetailView, CommentDeleteView
 
 urlpatterns = [
     path("", PostListView.as_view(), name="posts"),
     path("posts/<int:pk>", PostDetailView.as_view(), name="post"),
+    path("posts/<int:post_pk>/comments/<int:pk>/delete", CommentDeleteView.as_view(), name="comment_delete"),
 ]

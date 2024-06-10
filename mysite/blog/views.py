@@ -1,8 +1,10 @@
 from django.shortcuts import render, reverse
-from django.views.generic import ListView, DetailView
-from .models import Post
+from django.views.generic import ListView, DetailView, DeleteView
+from .models import Post, Comment
 from django.views.generic.edit import FormMixin
 from .forms import CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 
 # Create your views here.
 class PostListView(ListView):
@@ -17,6 +19,7 @@ class PostDetailView(FormMixin, DetailView):
     template_name = "post.html"
     context_object_name = "post"
     form_class = CommentForm
+
     # success_url = "/"
 
     def get_success_url(self):
@@ -37,3 +40,14 @@ class PostDetailView(FormMixin, DetailView):
         form.save()
         return super().form_valid(form)
 
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = "comment_delete.html"
+    context_object_name = "comment"
+
+    def get_success_url(self):
+        return reverse('post', kwargs={"pk": self.kwargs['post_pk']})
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
