@@ -11,7 +11,7 @@
             <a class="mr-2">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_created|date:"Y-m-d, f" }}</small>
             <h2 class="article-title">{{ post.title }}</h2>
-            <p class="article-content">{{ post.content|truncatewords:"20" }}
+            <p class="article-content">{{ post.content|truncatewords:"30"|safe }}
             <a class="card-text" href="{% url 'post' post.pk %}">Read More</a>
             </p>
         </div>

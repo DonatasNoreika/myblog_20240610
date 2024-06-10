@@ -9,7 +9,7 @@
             <a class="mr-2">{{ post.author }}</a>
             <small class="text-muted">{{ post.date_created|date:"Y-m-d, f" }}</small>
             <h1 class="article-title">{{ post.title }}</h1>
-            <p class="article-content">{{ post.content }}</p>
+            <p class="article-content">{{ post.content|safe }}</p>
         </div>
         <hr>
     </div>
