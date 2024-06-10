@@ -14,9 +14,23 @@
         <hr>
     </div>
 </article>
-<h4>Comments:</h4>
+<h3>Komentarai:</h3>
+{% if user.is_authenticated %}
+<div class="fieldWrapper">
+    <h5>Palikite atsiliepimą</h5>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.content }}<br/>
+        <input type="submit" value="Paskelbti">
+    </form>
+</div>
+{% endif %}
+{% if post.comments.all %}
 {% for comment in post.comments.all %}
 <small class="text-muted">{{ comment.author }}, {{ comment.date_created|date:"Y-m-d, f" }}</small>
-<p>{{ comment.content }}</p>
+<p>{{ comment.content|safe }}</p>
 {% endfor %}
+{% else %}
+<p>Nėra komentarų</p>
+{% endif %}
 {% endblock %}
