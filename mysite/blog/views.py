@@ -1,6 +1,10 @@
 from django.contrib.auth import password_validation
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView
+from django.views.generic import (ListView,
+                                  DetailView,
+                                  DeleteView,
+                                  UpdateView,
+                                  CreateView)
 from .models import Post, Comment
 from django.views.generic.edit import FormMixin
 from .forms import CommentForm
@@ -15,6 +19,18 @@ class PostListView(ListView):
     template_name = "posts.html"
     context_object_name = "posts"
     paginate_by = 5
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'content']
+    success_url = "/"
+    template_name = 'post_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.save()
+        return super().form_valid(form)
 
 
 class PostDetailView(FormMixin, DetailView):
