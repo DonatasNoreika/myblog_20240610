@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView
 from .models import Post, Comment
 from django.views.generic.edit import FormMixin
 from .forms import CommentForm
@@ -51,3 +51,23 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.get_object().author == self.request.user
+
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    template_name = "comment_form.html"
+    fields = ['content']
+
+    def get_success_url(self):
+        return reverse('post', kwargs={"pk": self.kwargs['post_pk']})
+
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.post = Post.objects.get(pk=self.kwargs['post_pk'])
+        form.save()
+        return super().form_valid(form)
+
