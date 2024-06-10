@@ -22,11 +22,13 @@ from .views import (PostListView,
                     CommentUpdateView,
                     CommentListView,
                     register,
-                    PostCreateView)
+                    PostCreateView,
+                    PostDeleteView)
 
 urlpatterns = [
     path("", PostListView.as_view(), name="posts"),
     path("posts/<int:pk>", PostDetailView.as_view(), name="post"),
+    path("posts/<int:pk>/delete", PostDeleteView.as_view(), name="post_delete"),
     path("posts/<int:post_pk>/comments/<int:pk>/delete", CommentDeleteView.as_view(), name="comment_delete"),
     path("posts/<int:post_pk>/comments/<int:pk>/update", CommentUpdateView.as_view(), name="comment_update"),
     path("comments/", CommentListView.as_view(), name="my_comments"),

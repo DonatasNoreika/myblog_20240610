@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block 'title' %}Įrašo trynimas{% endblock %}
+
+{% block 'content' %}
+
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <h3>Ar tikrai norite ištrinti įrašą "{{ post.title }}"?</h3>
+        <div class="form-group">
+            <button class="btn btn-outline-danger" type="submit">Taip, ištrinti</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

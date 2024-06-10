@@ -21,6 +21,16 @@ class PostListView(ListView):
     paginate_by = 5
 
 
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    context_object_name = "post"
+    template_name = "post_delete.html"
+    success_url = "/"
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
